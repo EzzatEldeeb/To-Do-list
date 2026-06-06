@@ -1,0 +1,269 @@
+:root {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --border-color: rgba(255, 255, 255, 0.1);
+
+  --radius-lg: 16px;
+  --radius-md: 8px;
+  --transition-fast: 0.2s ease;
+  --max-width: 450px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-main);
+  padding: 20px;
+}
+
+.main {
+  width: 100%;
+  max-width: var(--max-width);
+}
+
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.add-task {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.add-task input {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.add-task input:focus {
+  border-color: var(--accent-color);
+}
+
+.add-task input::placeholder {
+  color: var(--text-muted);
+}
+
+.add-task button {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    transform 0.1s ease;
+}
+
+.add-task button:hover {
+  background: var(--accent-hover);
+}
+
+.add-task button:active {
+  transform: scale(0.98);
+}
+
+.task-holder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.task-holder::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-holder::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.task-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 14px;
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid var(--accent-color);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* الكلاس اللي هيتضاف للـ li الجديدة من خلال الجافاسكريبت */
+.task-item {
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border-right: 5px solid #007bff; /* خط أزرق جمالي على اليمين طالما الموقع عربي */
+  list-style: none; /* بيشيل النقطة الافتراضية بتاعة الـ li */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 16px;
+  transition: all 0.3s ease; /* تأثير ناعم لو حبيت تعمل حركات بعدين */
+
+  /* علشان لو النص طويل يترتب بشكل منظم */
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+}
+
+/* تأثير خفيف لما المستخدم يمرر الماوس فوق التاسك */
+.task-item:hover {
+  background-color: #f1f1f1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* الحاوية الرئيسية للتوستات */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+/* شكل التوست الغضبان */
+.toast {
+  background: linear-gradient(
+    135deg,
+    #e74c3c,
+    #c0392b
+  ); /* تدرج لوني أحمر ناري وغاضب */
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold; /* نص سميك لتأكيد الغضب */
+  margin-top: 10px;
+  box-shadow: 0 6px 18px rgba(192, 57, 43, 0.4); /* ظل أحمر غامق */
+
+  /* حدود سميكة جهة اليسار للتميز */
+  border-left: 6px solid #b22222;
+
+  /* أنيميشن جديد يظهر الغضب والاختفاء */
+  animation: fadeInAngryShakeOut 3.5s forwards;
+}
+
+/* تأثير الظهور العنيف والهز والعضبان والاختفاء */
+@keyframes fadeInAngryShakeOut {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0) scale(1.1); /* تكبير خفيف عشان يبان إنه بيصرخ */
+  }
+  15% {
+    transform: scale(1) translateX(-10px);
+  } /* هز خفيف غاضب */
+  20% {
+    transform: translateX(10px);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  30% {
+    transform: translateX(5px);
+  }
+  35% {
+    transform: translateX(0);
+  } /* العودة للثبات */
+
+  /* يبقى ثابتاً لفترة */
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* يختفي للأعلى */
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+/* تعديل بسيط على الكلاس القديم عشان الزرار يروح على الطرف */
+.task-item {
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border-right: 5px solid #007bff;
+  list-style: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 16px;
+
+  /* دول مهمين جداً عشان يخلوا النص والزرار بعيد عن بعض */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: all 0.3s ease; /* عشان تأثير الحذف والأنيميشن */
+}
+
+/* كلاس التاسك المنتهية (بيتضاف لما تضغط على النص) */
+.completed {
+  text-decoration: line-through; /* بيعمل خط في نص الكلام */
+  color: #aaa; /* بيخلي اللون باهت */
+  font-style: italic;
+}
+
+/* شكل زرار المسح اللطيف */
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+/* تأثير لما الماوس يروح على زرار المسح */
+.delete-btn:hover {
+  background-color: #ffeaea;
+  transform: scale(1.2);
+}
